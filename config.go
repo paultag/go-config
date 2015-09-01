@@ -12,6 +12,13 @@ import (
 	"pault.ag/go/debian/control"
 )
 
+func LoadFlags(name string, data interface{}) (*flag.FlagSet, error) {
+	if err := Load(name, data); err != nil {
+		return nil, err
+	}
+	return Flag(data)
+}
+
 //
 func Load(name string, data interface{}) error {
 	localUser, err := user.Current()
