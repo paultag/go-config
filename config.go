@@ -7,6 +7,7 @@ import (
 	"os/user"
 	"path"
 	"reflect"
+	"strings"
 	"unsafe"
 
 	"pault.ag/go/debian/control"
@@ -73,7 +74,7 @@ func flagPointer(incoming reflect.Value, data *flag.FlagSet) error {
 
 func Flag(data interface{}) (*flag.FlagSet, error) {
 	dataValue := reflect.ValueOf(data)
-	name := dataValue.Elem().Type().Name()
+	name := strings.ToLower(dataValue.Elem().Type().Name())
 	flagSet := flag.NewFlagSet(name, flag.ExitOnError)
 	flagSet.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", name)
