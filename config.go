@@ -73,7 +73,13 @@ func flagPointer(incoming reflect.Value, data *flag.FlagSet) error {
 
 func Flag(data interface{}) (*flag.FlagSet, error) {
 	dataValue := reflect.ValueOf(data)
-	flagSet := flag.NewFlagSet(dataValue.Type().Name(), flag.ExitOnError)
+	name := dataValue.Elem().Type().Name()
+	flagSet := flag.NewFlagSet(name, flag.ExitOnError)
+	flagSet.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", name)
+		flagSet.PrintDefaults()
+	}
+
 	err := flagPointer(dataValue, flagSet)
 	if err != nil {
 		return nil, err
