@@ -24,12 +24,12 @@ func LoadFlags(name string, data interface{}) (*flag.FlagSet, error) {
 func Load(name string, data interface{}) error {
 	localUser, err := user.Current()
 	if err != nil {
-		return err
+		return nil
 	}
 	rcPath := path.Join(localUser.HomeDir, fmt.Sprintf(".%src", name))
 	fd, err := os.Open(rcPath)
 	if err != nil {
-		return err
+		return nil
 	}
 	defer fd.Close()
 	err = control.Unmarshal(data, fd)
